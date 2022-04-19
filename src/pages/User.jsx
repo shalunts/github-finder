@@ -1,20 +1,24 @@
-import {FaCodepen, FaStore, FaUserFriends, FaUsers} from 'react-icons/fa'
-import {useEffect, useContext} from 'react'
-import {useParams} from 'react-router-dom'
-import {Link} from 'react-router-dom'
-import Spinner from '../components/shared/Spinner'
-import GithubContext from '../context/github/GithubContext'
-import RepoList from '../components/repos/RepoList'
+import {
+  FaCodepen,
+  FaStore,
+  FaUserFriends,
+  FaUsers,
+} from 'react-icons/fa';
+import { useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Spinner from '../components/shared/Spinner';
+import GithubContext from '../context/github/GithubContext';
+import RepoList from '../components/repos/RepoList';
 
 function User() {
+  const { user, getUser, loading } = useContext(GithubContext);
 
-  const {user, getUser, loading} = useContext(GithubContext)
-
-  const params = useParams()
+  const params = useParams();
 
   useEffect(() => {
-    getUser(params.login)
-  }, [])
+    getUser(params.login);
+  }, [getUser, params.login]);
 
   const {
     name,
@@ -31,19 +35,21 @@ function User() {
     public_repos,
     public_gists,
     hireable,
-  } = user
+  } = user;
 
-  if(loading){
-    return <Spinner />
+  if (loading) {
+    return <Spinner />;
   }
 
-    // NOTE: check for valid url to users website
+  // NOTE: check for valid url to users website
 
-    const websiteUrl = blog?.startsWith('http') ? blog : 'https://' + blog
+  const websiteUrl = blog?.startsWith('http')
+    ? blog
+    : 'https://' + blog;
 
-    // NOTE: code here has been fixed so that stats no longer show scroll bar on
-    // mobile / small devices
-    // https://www.udemy.com/course/react-front-to-back-2022/learn/lecture/29768968#questions/16902278
+  // NOTE: code here has been fixed so that stats no longer show scroll bar on
+  // mobile / small devices
+  // https://www.udemy.com/course/react-front-to-back-2022/learn/lecture/29768968#questions/16902278
 
   return (
     <>
@@ -71,9 +77,13 @@ function User() {
             <div className='mb-6'>
               <h1 className='text-3xl card-title'>
                 {name}
-                <div className='ml-2 mr-1 badge badge-success'>{type}</div>
+                <div className='ml-2 mr-1 badge badge-success'>
+                  {type}
+                </div>
                 {hireable && (
-                  <div className='mx-1 badge badge-info'>Hireable</div>
+                  <div className='mx-1 badge badge-info'>
+                    Hireable
+                  </div>
                 )}
               </h1>
               <p>{bio}</p>
@@ -100,7 +110,11 @@ function User() {
                 <div className='stat'>
                   <div className='stat-title text-md'>Website</div>
                   <div className='text-lg stat-value'>
-                    <a href={websiteUrl} target='_blank' rel='noreferrer'>
+                    <a
+                      href={websiteUrl}
+                      target='_blank'
+                      rel='noreferrer'
+                    >
                       {websiteUrl}
                     </a>
                   </div>
@@ -171,7 +185,7 @@ function User() {
         {/* <RepoList repos={repos} /> */}
       </div>
     </>
-  )
+  );
 }
 
-export default User
+export default User;
